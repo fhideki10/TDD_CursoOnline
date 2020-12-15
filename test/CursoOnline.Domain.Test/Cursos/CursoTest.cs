@@ -1,4 +1,5 @@
 ﻿using CursoOnline.Domain.Cursos;
+using ExpectedObjects;
 using Xunit;
 
 namespace CursoOnline.Domain.Test.Cursos
@@ -8,17 +9,17 @@ namespace CursoOnline.Domain.Test.Cursos
         [Fact(DisplayName = "CriacaoDoCurso")]
         public void CriarCurso()
         {
-            string nome = "Curso de informatica";
-            double cargaHoraria = 46;
-            string publicoAlvo = "Estudante";
-            double valor = 50;
+            var cursoEsperado = new
+            {
+                Nome = "Curso de informatica",
+                CargaHoraria = (double) 40,
+                PublicoAlvo = "Estudante",
+                Valor = (double) 50
+            };
 
-            var curso = new Curso(nome, cargaHoraria, publicoAlvo, valor);
+            var curso = new Curso(cursoEsperado.Nome, cursoEsperado.CargaHoraria, cursoEsperado.PublicoAlvo, cursoEsperado.Valor);
 
-            Assert.Equal(nome, curso.Nome);
-            Assert.Equal(cargaHoraria, curso.CargaHoraria);
-            Assert.Equal(publicoAlvo, curso.PublicoAlvo);
-            Assert.Equal(valor, curso.Valor);
+            cursoEsperado.ToExpectedObject().ShouldMatch(curso);
         }
     }
 }
